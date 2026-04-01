@@ -3,9 +3,24 @@ name: CI Workflow
 on: [push]
 
 jobs:
-  hello:
+  devops:
     runs-on: ubuntu-latest
 
     steps:
-      - name: print hello
-        run: echo "this is devops class"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t myapp .
+
+      - name: Run Container
+        run: docker run -d -p 8080:80 myapp
+
+      - name: Wait for container
+        run: sleep 5
+
+      - name: Check output
+        run: curl http://localhost:8080
+      
+
+
